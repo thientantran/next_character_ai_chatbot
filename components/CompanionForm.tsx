@@ -1,5 +1,6 @@
 'use client'
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
@@ -77,6 +78,44 @@ export default function CompanionForm({
               </FormItem>
             )}
           />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              name="name"
+              control={form.control}
+              // sao cai nay co control, cai tren ko co?
+              render={({ field }) => (
+                <FormItem className="col-span-2 md:col-span-1">
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} placeholder="Elon Musk" {...field} />
+                    {/* cai field nay co nghia la no se thua huong nhung cai props nhu onChange, onBlur.... */}
+                  </FormControl>
+                  <FormDescription>
+                    This is how your AI Companion will be named.
+                  </FormDescription>
+                  <FormMessage />
+                  {/* form message de bao loi */}
+                </FormItem>
+
+              )}
+            />
+            <FormField
+              name="description"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} placeholder="CEO & Founder of Tesla, SpaceX" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Short description for your AI Companion
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </form>
       </Form>
     </div>
