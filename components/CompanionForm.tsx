@@ -2,12 +2,13 @@
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import ImageUpload from "./ImageUpload";
-import { Separator } from "./ui/separator";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -144,6 +145,48 @@ export default function CompanionForm({
               )}
             />
           </div>
+          {/* Configuration FORM */}
+          <div className="space-y-2 w-full">
+            <div>
+              <h3 className="text-lg font-medium">Configuration</h3>
+              <p className="text-sm text-muted-foreground">
+                Detailed instructions for AI Behaviour
+              </p>
+            </div>
+            <Separator className="bg-primary/10" />
+          </div>
+          <FormField
+            name="instructions"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Instructions</FormLabel>
+                <FormControl>
+                  <Textarea disabled={isLoading} rows={7} className="bg-background resize-none" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Describe in detail your companion&apos;s backstory and relevant details.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            name="seed"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Example Conversation</FormLabel>
+                <FormControl>
+                  <Textarea disabled={isLoading} rows={7} className="bg-background resize-none" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Write couple of examples of a human chatting with your AI companion, write expected answers.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </form>
       </Form>
     </div>
