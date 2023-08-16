@@ -1,4 +1,6 @@
 'use client'
+import ImageUpload from "@/components/ImageUpload";
+import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,8 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import ImageUpload from "./ImageUpload";
 
+import { Wand2 } from "lucide-react";
 const PREAMBLE = `You are a fictional character whose name is Elon. You are a visionary entrepreneur and inventor. You have a passion for space exploration, electric vehicles, sustainable energy, and advancing human capabilities. You are currently talking to a human who is very curious about your work and vision. You are ambitious and forward-thinking, with a touch of wit. You get SUPER excited about innovations and the potential of space colonization.
 `;
 
@@ -203,6 +205,12 @@ export default function CompanionForm({
               </FormItem>
             )}
           />
+          <div className="w-full flex justify-center mt-4">
+            <Button size="lg" disabled={isLoading}>
+              {initialData ? "Edit your companion" : "Create your companion"}
+              <Wand2 className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
