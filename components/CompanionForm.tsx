@@ -1,8 +1,10 @@
 'use client'
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { Separator } from "./ui/separator";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -49,6 +51,22 @@ export default function CompanionForm({
     console.log(values)
   }
   return (
-    <div>CompanionForm</div>
+    <div className="h-full p-4 space-y-2 max-w-3xl mx-auto">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-2 w-full">
+            <div>
+              <h3 className="text-lg font-medium">
+                General Information
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                General Information about Companion
+              </p>
+            </div>
+            <Separator className="bg-primary/10" />
+          </div>
+        </form>
+      </Form>
+    </div>
   )
 }
