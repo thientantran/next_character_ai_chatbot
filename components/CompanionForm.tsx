@@ -1,6 +1,7 @@
 'use client'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
@@ -67,6 +68,7 @@ export default function CompanionForm({
             </div>
             <Separator className="bg-primary/10" />
           </div>
+          {/* upload image */}
           <FormField
             name="src"
             render={({ field }) => (
@@ -78,6 +80,7 @@ export default function CompanionForm({
               </FormItem>
             )}
           />
+          {/* information form */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               name="name"
@@ -110,6 +113,31 @@ export default function CompanionForm({
                   </FormControl>
                   <FormDescription>
                     Short description for your AI Companion
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <Select disabled={isLoading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="bg-background">
+                        <SelectValue defaultValue={field.value} placeholder="Select a category" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Select a category for your AI
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
