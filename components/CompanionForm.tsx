@@ -1,9 +1,10 @@
 'use client'
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import ImageUpload from "./ImageUpload";
 import { Separator } from "./ui/separator";
 
 const formSchema = z.object({
@@ -65,6 +66,17 @@ export default function CompanionForm({
             </div>
             <Separator className="bg-primary/10" />
           </div>
+          <FormField
+            name="src"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-center justify-center space-y-4">
+                <FormControl>
+                  <ImageUpload disabled={isLoading} onChange={field.onChange} value={field.value} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </form>
       </Form>
     </div>
