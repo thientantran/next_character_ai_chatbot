@@ -32,6 +32,28 @@ model Companion {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 
+  messages Message[]
+
   @@index([categoryId]) // resolve warning khi khai bao category o tren
   @@fulltext([name]) // previewFeatures => giup search full text cho cai name
+}
+
+enum Role {
+  user
+  system
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  role      Role
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  companionId String
+  userId      String
+
+  companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+
+  @@index([companionId])
 }
