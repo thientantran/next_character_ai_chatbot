@@ -4,6 +4,7 @@ import SearchInput from "@/components/SearchInput";
 import prismadb from "@/lib/prismadb";
 
 interface RootPageProps {
+  // chu y: chu searchParams khac' params
   searchParams: {
     categoryId: string;
     name: string;
