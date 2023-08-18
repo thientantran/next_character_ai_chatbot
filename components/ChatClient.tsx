@@ -1,3 +1,4 @@
+'use client'
 import ChatHeader from "@/components/ChatHeader";
 import { Companion, Message } from "@prisma/client";
 
