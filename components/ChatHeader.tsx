@@ -1,7 +1,11 @@
 'use client'
 import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useToast } from '@/components/ui/use-toast';
+import { useUser } from '@clerk/nextjs';
 import { Companion, Message } from '@prisma/client';
-import { ChevronLeft, MessageSquare } from 'lucide-react';
+import axios from 'axios';
+import { ChevronLeft, Edit, MessageSquare, MoreVertical, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import BotAvatar from './BotAvatar';
 
@@ -16,6 +20,25 @@ interface ChatHeaderProps {
 
 export default function ChatHeader({ companion }: ChatHeaderProps) {
   const router = useRouter()
+  const { user } = useUser()
+  const { toast } = useToast()
+
+  const onDelete = async () => {
+    try {
+      await axios.delete(`/api/companion/${companion.id}`);
+      toast({
+        description: "Success."
+      });
+      router.refresh();
+      router.push("/")
+    } catch (error) {
+      console.log("ZO")
+      toast({
+        variant: "destructive",
+        description: 'something went wrong'
+      })
+    }
+  }
   return (
     <div className="flex w-full justify-between items-center border-b border-primary/10 pb-4">
       <div className="flex gap-x-2 items-center">
@@ -38,6 +61,28 @@ export default function ChatHeader({ companion }: ChatHeaderProps) {
           </p>
         </div>
       </div>
+      {user?.id === companion.userId && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary' size='icon'>
+              <MoreVertical />
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align='end'>
+            {/* click di den tran edit */}
+            <DropdownMenuItem onClick={() => router.push(`/companion/${companion.id}`)}>
+              <Edit className='w-4 h-4 mr-2' />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onDelete}>
+              <Trash className='w-4 h-4 mr-2' />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+      )}
     </div>
   )
 }
