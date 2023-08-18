@@ -32,7 +32,6 @@ export default function ChatHeader({ companion }: ChatHeaderProps) {
       router.refresh();
       router.push("/")
     } catch (error) {
-      console.log("ZO")
       toast({
         variant: "destructive",
         description: 'something went wrong'
