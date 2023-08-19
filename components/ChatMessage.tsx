@@ -2,6 +2,7 @@
 
 import BotAvatar from "@/components/BotAvatar";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { Copy } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -17,6 +18,18 @@ export default function ChatMessage({
   role, content, isLoading, src
 }: ChatMessageProps) {
   const { theme } = useTheme()
+  const { toast } = useToast();
+  const onCopy = () => {
+    if (!content) {
+      return;
+    }
+
+    navigator.clipboard.writeText(content);
+    toast({
+      description: "Message copied to clipboard.",
+      duration: 3000,
+    })
+  }
   return (
     <div className={cn("group flex items-start gap-x-3 py-4 w-full", role === 'user' && 'justify-end')}>
       {role !== 'user' && src && <BotAvatar src={src} />}
@@ -29,6 +42,7 @@ export default function ChatMessage({
       {role === "user" && <UserAvatar />}
       {role !== "user" && !isLoading && (
         <Button
+          onClick={onCopy}
           className="opacity-0 group-hover:opacity-100 transition"
           size="icon"
           variant="ghost"
