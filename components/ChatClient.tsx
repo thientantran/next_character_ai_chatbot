@@ -1,6 +1,7 @@
 'use client'
 import ChatForm from "@/components/ChatForm";
 import ChatHeader from "@/components/ChatHeader";
+import { ChatMessageProps } from "@/components/ChatMessage";
 import ChatMessages from "@/components/ChatMessages";
 import { Companion, Message } from "@prisma/client";
 import { useCompletion } from 'ai/react';
@@ -18,13 +19,13 @@ interface ChatClientProps {
 
 export default function ChatClient({ companion }: ChatClientProps) {
   const router = useRouter()
-  const [messages, setMessages] = useState<any[]>(companion.messages)
+  const [messages, setMessages] = useState<ChatMessageProps[]>(companion.messages)
 
   const { input, setInput, isLoading, handleInputChange, handleSubmit } = useCompletion({
     api: `/api/chat/${companion.id}`,
     onFinish(prompt, completion) {
       // message from AI
-      const systemMessage = {
+      const systemMessage: ChatMessageProps = {
         role: "system",
         content: completion
       }
@@ -37,7 +38,7 @@ export default function ChatClient({ companion }: ChatClientProps) {
   })
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    const userMessage = {
+    const userMessage: ChatMessageProps = {
       role: "user",
       content: input,
     }
