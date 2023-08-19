@@ -2,7 +2,7 @@
 
 import ChatMessage, { ChatMessageProps } from "@/components/ChatMessage";
 import { Companion } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { ElementRef, useEffect, useRef, useState } from "react";
 interface ChatMessagesProps {
   messages: ChatMessageProps[];
   isLoading: boolean;
@@ -15,7 +15,8 @@ export default function ChatMessages({
   isLoading,
   companion
 }: ChatMessagesProps) {
-
+  const scrollRef = useRef<ElementRef<"div">>(null);
+  // tạo 1 cái để ref, rồi add nó vào cuối cùng cái ở dưới, messsages càng nhiều thì cái tham chiếu vẫn ở dưới cùng, rồi sẽ tự động scroll xuống đó
   const [fakeLoading, setFakeLoading] = useState(messages.length === 0 ? true : false);
 
   useEffect(() => {
@@ -28,6 +29,9 @@ export default function ChatMessages({
     }
   }, []);
 
+  useEffect(()=>{
+    scrollRef?.current?.scrollIntoView({behavior:'smooth'});
+  }, [messages.length])
   return (
     <div className="flex-1 overflow-y-auto pr-4">
       <ChatMessage
@@ -52,6 +56,7 @@ export default function ChatMessages({
           isLoading
         />
       )}
+      <div ref={scrollRef}/>
     </div>
   )
 }
