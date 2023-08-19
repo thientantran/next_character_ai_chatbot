@@ -50,7 +50,11 @@ export default function ChatClient({ companion }: ChatClientProps) {
     <div className="flex flex-col h-full p-4 space-y-2">
       <ChatHeader companion={companion} />
       {/* messages */}
-      <ChatMessages />
+      <ChatMessages
+        companion={companion}
+        isLoading={isLoading}
+        messages={messages}
+      />
       <ChatForm
         isLoading={isLoading}
         input={input}
