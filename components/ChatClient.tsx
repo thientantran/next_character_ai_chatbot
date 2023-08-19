@@ -1,6 +1,7 @@
 'use client'
 import ChatForm from "@/components/ChatForm";
 import ChatHeader from "@/components/ChatHeader";
+import ChatMessages from "@/components/ChatMessages";
 import { Companion, Message } from "@prisma/client";
 import { useCompletion } from 'ai/react';
 import { useRouter } from "next/navigation";
@@ -49,6 +50,7 @@ export default function ChatClient({ companion }: ChatClientProps) {
     <div className="flex flex-col h-full p-4 space-y-2">
       <ChatHeader companion={companion} />
       {/* messages */}
+      <ChatMessages />
       <ChatForm
         isLoading={isLoading}
         input={input}
