@@ -36,11 +36,22 @@ export default function ChatMessages({
         content={`Hello, I am ${companion.name}, ${companion.description}`}
         isLoading={fakeLoading}
       />
-      <ChatMessage
-        role="user"
-        content={`anh yeu em`}
-        isLoading={fakeLoading}
-      />
+      {messages.map((message) => (
+        <ChatMessage
+          key={message.content}
+          src={companion.src}
+          content={message.content}
+          role={message.role}
+        />
+      ))}
+      {/* khi ma loading thi se hien cai nay */}
+      {isLoading && (
+        <ChatMessage
+          src={companion.src}
+          role="system"
+          isLoading
+        />
+      )}
     </div>
   )
 }
